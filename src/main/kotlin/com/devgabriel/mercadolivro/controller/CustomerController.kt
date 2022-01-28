@@ -25,7 +25,7 @@ class CustomerController(
     }
 
     @GetMapping("/{id}", produces = ["application/json"])
-    fun getCustomerById(@PathVariable id: String): ResponseEntity<CustomerResponse> {
+    fun getCustomerById(@PathVariable id: Long): ResponseEntity<CustomerResponse> {
         val customer = customerService.getCustomerById(id)
         return ResponseEntity.ok(
             CustomerResponse(
@@ -48,17 +48,17 @@ class CustomerController(
 
     @PutMapping("/{id}")
     fun updateCustomerById(
-        @PathVariable id: String,
+        @PathVariable id: Long,
         @RequestBody request: PutCustomerRequest
     ): ResponseEntity<CustomerResponse> {
         val customer = request.toCustomerModel(id)
-        customerService.updateCustomerById(id, customer)
+        customerService.updateCustomerById(customer)
         return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping("/{id}")
     fun deleteCustomerById(
-        @PathVariable id: String,
+        @PathVariable id: Long,
     ): ResponseEntity<CustomerResponse> {
         customerService.deleteCustomerById(id)
         return ResponseEntity.noContent().build()

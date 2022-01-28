@@ -1,36 +1,42 @@
 package com.devgabriel.mercadolivro.service
 
 import com.devgabriel.mercadolivro.model.Customer
+import com.devgabriel.mercadolivro.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
 @Service
-class CustomerServiceImpl : CustomerService {
-
-    val customers = mutableListOf<Customer>()
+class CustomerServiceImpl(
+    private val customerRepository: CustomerRepository
+) : CustomerService {
 
     override fun getCustomers(name: String?): List<Customer> {
         name?.let {
-            return customers.filter { it.name.contains(name, ignoreCase = true) }
+            return customerRepository.findByNameContaining(it)
         }
 
-        return customers
+        return customerRepository.findAll()
     }
 
-    override fun getCustomerById(id: String): Customer {
-        return customers.find { it.id == id }!!
+    override fun getCustomerById(id: Long): Customer {
+        return customerRepository.findById(id).orElseThrow()
     }
 
     override fun create(customer: Customer) {
-        customers.add(customer)
+        customerRepository.save(customer)
     }
 
-    override fun updateCustomerById(id: String, customerUp: Customer) {
-        val customer = customers.find { it.id == id }
-        customer!!.name = customerUp.name
-        customer.email = customerUp.email
+    override fun updateCustomerById(customer: Customer) {
+        if (!customerRepository.existsById(customer.id!!)) {
+            throw Exception()
+        }
+
+        customerRepository.save(customer)
     }
 
-    override fun deleteCustomerById(id: String) {
-        customers.removeIf { it.id == id }
+    override fun deleteCustomerById(id: Long) {
+        if (!customerRepository.existsById(id)) {
+            throw Exception()
+        }
+        customerRepository.deleteById(id)
     }
 }
