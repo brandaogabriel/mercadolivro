@@ -1,0 +1,11 @@
+version: '3'
+services:
+  database:
+    image: "postgres:9.6-alpine"
+    container_name: db_mercadolivro_local
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db_mercadolivro

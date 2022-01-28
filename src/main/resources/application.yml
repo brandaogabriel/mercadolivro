@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: ${DATABASE_URL:`jdbc:postgresql://localhost:5432/db_mercadolivro`}
+    username: postgres
+    password: password
