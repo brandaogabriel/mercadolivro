@@ -1,7 +1,7 @@
 version: '3'
 services:
   database:
-    image: "postgres:9.6-alpine"
+    image: "postgres:latest"
     container_name: db_mercadolivro_local
     ports:
       - "5432:5432"
