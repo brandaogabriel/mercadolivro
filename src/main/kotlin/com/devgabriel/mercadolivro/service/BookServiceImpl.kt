@@ -2,6 +2,7 @@ package com.devgabriel.mercadolivro.service
 
 import com.devgabriel.mercadolivro.enums.BookStatus
 import com.devgabriel.mercadolivro.model.Book
+import com.devgabriel.mercadolivro.model.Customer
 import com.devgabriel.mercadolivro.repository.BookRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -39,5 +40,13 @@ class BookServiceImpl(
         val book = findById(id)
         book.status = BookStatus.DELETADO
         update(book)
+    }
+
+    override fun deleteByCustomer(customer: Customer) {
+        val books = bookRepository.findByCustomer(customer)
+        books.map { book ->
+            if (book.status == BookStatus.ATIVO) book.status = BookStatus.DELETADO
+        }
+        bookRepository.saveAll(books)
     }
 }
