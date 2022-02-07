@@ -1,13 +1,15 @@
 package com.devgabriel.mercadolivro.controller
 
-import com.devgabriel.mercadolivro.controller.request.PostBookRequest
-import com.devgabriel.mercadolivro.controller.request.PutBookRequest
 import com.devgabriel.mercadolivro.common.util.toBookModel
 import com.devgabriel.mercadolivro.common.util.toBookResponse
+import com.devgabriel.mercadolivro.controller.request.PostBookRequest
+import com.devgabriel.mercadolivro.controller.request.PutBookRequest
 import com.devgabriel.mercadolivro.controller.response.BookResponse
-import com.devgabriel.mercadolivro.model.Book
 import com.devgabriel.mercadolivro.service.BookService
 import com.devgabriel.mercadolivro.service.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -30,13 +32,15 @@ class BookController(
     }
 
     @GetMapping
-    fun findAll(): ResponseEntity<List<BookResponse>> {
-        return ResponseEntity.ok(bookService.findAll().map { it.toBookResponse() })
+    fun findAll(
+        @PageableDefault(page = 0, size = 10) pageable: Pageable
+    ): ResponseEntity<Page<BookResponse>> {
+        return ResponseEntity.ok(bookService.findAll(pageable).map { it.toBookResponse() })
     }
 
     @GetMapping("/actives", produces = ["application/json"])
-    fun findAllActives(): ResponseEntity<List<BookResponse>> {
-        return ResponseEntity.ok(bookService.findActives().map { it.toBookResponse() })
+    fun findAllActives(@PageableDefault(page = 0, size = 10) pageable: Pageable): ResponseEntity<Page<BookResponse>> {
+        return ResponseEntity.ok(bookService.findActives(pageable).map { it.toBookResponse() })
     }
 
     @GetMapping("/{id}", produces = ["application/json"])

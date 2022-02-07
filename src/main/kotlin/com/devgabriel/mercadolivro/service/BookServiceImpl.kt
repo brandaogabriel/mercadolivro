@@ -5,6 +5,8 @@ import com.devgabriel.mercadolivro.model.Book
 import com.devgabriel.mercadolivro.model.Customer
 import com.devgabriel.mercadolivro.repository.BookRepository
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,12 +22,12 @@ class BookServiceImpl(
         logger.debug("[${javaClass.simpleName}.create] call - success - model: {}", book)
     }
 
-    override fun findAll(): List<Book> {
-        return bookRepository.findAll()
+    override fun findAll(pageable: Pageable): Page<Book> {
+        return bookRepository.findAll(pageable)
     }
 
-    override fun findActives(): List<Book> {
-        return bookRepository.findByStatus(BookStatus.ATIVO)
+    override fun findActives(pageable: Pageable): Page<Book> {
+        return bookRepository.findByStatus(BookStatus.ATIVO, pageable)
     }
 
     override fun findById(id: Long): Book {
