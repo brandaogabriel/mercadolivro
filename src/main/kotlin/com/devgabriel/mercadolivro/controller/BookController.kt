@@ -2,7 +2,9 @@ package com.devgabriel.mercadolivro.controller
 
 import com.devgabriel.mercadolivro.controller.request.PostBookRequest
 import com.devgabriel.mercadolivro.controller.request.PutBookRequest
-import com.devgabriel.mercadolivro.controller.request.toBookModel
+import com.devgabriel.mercadolivro.common.util.toBookModel
+import com.devgabriel.mercadolivro.common.util.toBookResponse
+import com.devgabriel.mercadolivro.controller.response.BookResponse
 import com.devgabriel.mercadolivro.model.Book
 import com.devgabriel.mercadolivro.service.BookService
 import com.devgabriel.mercadolivro.service.CustomerService
@@ -28,18 +30,18 @@ class BookController(
     }
 
     @GetMapping
-    fun findAll(): ResponseEntity<List<Book>> {
-        return ResponseEntity.ok(bookService.findAll())
+    fun findAll(): ResponseEntity<List<BookResponse>> {
+        return ResponseEntity.ok(bookService.findAll().map { it.toBookResponse() })
     }
 
     @GetMapping("/actives", produces = ["application/json"])
-    fun findAllActives(): ResponseEntity<List<Book>> {
-        return ResponseEntity.ok(bookService.findActives())
+    fun findAllActives(): ResponseEntity<List<BookResponse>> {
+        return ResponseEntity.ok(bookService.findActives().map { it.toBookResponse() })
     }
 
     @GetMapping("/{id}", produces = ["application/json"])
-    fun findById(@PathVariable id: Long): ResponseEntity<Book> {
-        return ResponseEntity.ok(bookService.findById(id))
+    fun findById(@PathVariable id: Long): ResponseEntity<BookResponse> {
+        return ResponseEntity.ok(bookService.findById(id).toBookResponse())
     }
 
     @PutMapping("/{id}", consumes = ["application/json"])
