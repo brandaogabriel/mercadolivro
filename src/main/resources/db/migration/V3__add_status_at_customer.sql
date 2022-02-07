@@ -1,0 +1,1 @@
+ALTER TABLE tb_customer ADD COLUMN status varchar(100);

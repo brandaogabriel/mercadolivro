@@ -7,10 +7,11 @@ data class PutCustomerRequest(
     val email: String,
 )
 
-fun PutCustomerRequest.toCustomerModel(id: Long): Customer {
+fun PutCustomerRequest.toCustomerModel(previousValue: Customer): Customer {
     return Customer(
-        id = id,
+        id = previousValue.id,
         name = name,
-        email = email
+        email = email,
+        status = previousValue.status
     )
 }

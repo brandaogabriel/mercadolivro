@@ -1,5 +1,6 @@
 package com.devgabriel.mercadolivro.service
 
+import com.devgabriel.mercadolivro.enums.CustomerStatus
 import com.devgabriel.mercadolivro.model.Customer
 import com.devgabriel.mercadolivro.repository.CustomerRepository
 import org.springframework.stereotype.Service
@@ -37,9 +38,8 @@ class CustomerServiceImpl(
     override fun deleteCustomerById(id: Long) {
         val customer = getCustomerById(id)
         bookService.deleteByCustomer(customer)
-        if (!customerRepository.existsById(id)) {
-            throw Exception()
-        }
-        customerRepository.deleteById(id)
+
+        customer.status = CustomerStatus.INATIVO
+        customerRepository.save(customer)
     }
 }

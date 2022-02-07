@@ -51,8 +51,8 @@ class CustomerController(
         @PathVariable id: Long,
         @RequestBody request: PutCustomerRequest
     ): ResponseEntity<CustomerResponse> {
-        val customer = request.toCustomerModel(id)
-        customerService.updateCustomerById(customer)
+        val savedCustomer = customerService.getCustomerById(id)
+        customerService.updateCustomerById(request.toCustomerModel(savedCustomer))
         return ResponseEntity.noContent().build()
     }
 

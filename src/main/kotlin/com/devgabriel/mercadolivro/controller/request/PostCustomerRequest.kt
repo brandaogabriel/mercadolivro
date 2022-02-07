@@ -1,5 +1,6 @@
 package com.devgabriel.mercadolivro.controller.request
 
+import com.devgabriel.mercadolivro.enums.CustomerStatus
 import com.devgabriel.mercadolivro.model.Customer
 
 data class PostCustomerRequest(
@@ -10,6 +11,7 @@ data class PostCustomerRequest(
 fun PostCustomerRequest.toCustomerModel(): Customer {
     return Customer(
         name = name,
-        email = email
+        email = email,
+        status = CustomerStatus.ATIVO
     )
 }
