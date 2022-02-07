@@ -1,8 +1,10 @@
 package com.devgabriel.mercadolivro.service
 
 import com.devgabriel.mercadolivro.enums.CustomerStatus
+import com.devgabriel.mercadolivro.exception.NotFoundException
 import com.devgabriel.mercadolivro.model.Customer
 import com.devgabriel.mercadolivro.repository.CustomerRepository
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,6 +12,8 @@ class CustomerServiceImpl(
     private val customerRepository: CustomerRepository,
     private val bookService: BookService
 ) : CustomerService {
+
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun getCustomers(name: String?): List<Customer> {
         name?.let {
@@ -20,7 +24,16 @@ class CustomerServiceImpl(
     }
 
     override fun getCustomerById(id: Long): Customer {
-        return customerRepository.findById(id).orElseThrow()
+        logger.info("[${javaClass.simpleName}.getCustomerById] start customer id={}", id)
+        val customer = customerRepository
+            .findById(id)
+            .orElseThrow {
+                logger.debug("[${javaClass.simpleName}.getCustomerById] call - error - customer id: {} NOT FOUND", id)
+                throw NotFoundException("Customer [${id}] not found", "ML-001")
+            }
+
+        logger.debug("[${javaClass.simpleName}.getCustomerById] call - success - customer id: {}", id)
+        return customer
     }
 
     override fun create(customer: Customer) {
@@ -28,11 +41,10 @@ class CustomerServiceImpl(
     }
 
     override fun updateCustomerById(customer: Customer) {
-        if (!customerRepository.existsById(customer.id!!)) {
-            throw Exception()
-        }
+        logger.info("[${javaClass.simpleName}.updateCustomerById] start customer id={}", customer.id)
 
         customerRepository.save(customer)
+        logger.debug("[${javaClass.simpleName}.updateCustomerById] call - success - customer id: {}", customer.id)
     }
 
     override fun deleteCustomerById(id: Long) {

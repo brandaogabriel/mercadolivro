@@ -6,3 +6,5 @@ spring:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/db_mercadolivro}
     username: postgres
     password: password
+  jackson:
+    default-property-inclusion: non_null

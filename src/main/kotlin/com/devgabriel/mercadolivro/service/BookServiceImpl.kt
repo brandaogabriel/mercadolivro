@@ -1,6 +1,7 @@
 package com.devgabriel.mercadolivro.service
 
 import com.devgabriel.mercadolivro.enums.BookStatus
+import com.devgabriel.mercadolivro.exception.NotFoundException
 import com.devgabriel.mercadolivro.model.Book
 import com.devgabriel.mercadolivro.model.Customer
 import com.devgabriel.mercadolivro.repository.BookRepository
@@ -31,7 +32,11 @@ class BookServiceImpl(
     }
 
     override fun findById(id: Long): Book {
-        return bookRepository.findById(id).orElseThrow()
+        return bookRepository
+            .findById(id)
+            .orElseThrow {
+                throw NotFoundException("Book [$id] not found", "ML-001")
+            }
     }
 
     override fun update(book: Book) {
