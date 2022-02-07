@@ -21,4 +21,16 @@ class ControllerAdvice {
         )
         return ResponseEntity(error, httStatus)
     }
+
+    @ExceptionHandler(BadRequestException::class)
+    fun handleBadRequestException(ex: BadRequestException, request: WebRequest): ResponseEntity<ErrorResponse> {
+        val httStatus = HttpStatus.BAD_REQUEST
+        val error = ErrorResponse(
+            httpCode = httStatus.value(),
+            message = ex.message,
+            internalCode = ex.errorCode,
+            errors = null
+        )
+        return ResponseEntity(error, httStatus)
+    }
 }

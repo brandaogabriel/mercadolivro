@@ -1,6 +1,7 @@
 package com.devgabriel.mercadolivro.service
 
 import com.devgabriel.mercadolivro.enums.BookStatus
+import com.devgabriel.mercadolivro.exception.Errors
 import com.devgabriel.mercadolivro.exception.NotFoundException
 import com.devgabriel.mercadolivro.model.Book
 import com.devgabriel.mercadolivro.model.Customer
@@ -35,7 +36,7 @@ class BookServiceImpl(
         return bookRepository
             .findById(id)
             .orElseThrow {
-                throw NotFoundException("Book [$id] not found", "ML-001")
+                throw NotFoundException(Errors.ML_101.message.format(id), Errors.ML_101.code)
             }
     }
 

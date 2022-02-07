@@ -1,6 +1,7 @@
 package com.devgabriel.mercadolivro.service
 
 import com.devgabriel.mercadolivro.enums.CustomerStatus
+import com.devgabriel.mercadolivro.exception.Errors
 import com.devgabriel.mercadolivro.exception.NotFoundException
 import com.devgabriel.mercadolivro.model.Customer
 import com.devgabriel.mercadolivro.repository.CustomerRepository
@@ -29,7 +30,7 @@ class CustomerServiceImpl(
             .findById(id)
             .orElseThrow {
                 logger.debug("[${javaClass.simpleName}.getCustomerById] call - error - customer id: {} NOT FOUND", id)
-                throw NotFoundException("Customer [${id}] not found", "ML-001")
+                throw NotFoundException(Errors.ML_201.message.format(id), Errors.ML_201.code)
             }
 
         logger.debug("[${javaClass.simpleName}.getCustomerById] call - success - customer id: {}", id)
