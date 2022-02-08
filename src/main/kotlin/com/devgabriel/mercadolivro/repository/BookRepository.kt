@@ -10,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface BookRepository : JpaRepository<Book, Long> {
     fun findByStatus(status: BookStatus, pageable: Pageable): Page<Book>
     fun findByCustomer(customer: Customer): List<Book>
+    fun existsByIdAndStatus(id: Long, status: BookStatus): Boolean
 }

@@ -1,5 +1,6 @@
 package com.devgabriel.mercadolivro.service
 
+import com.devgabriel.mercadolivro.enums.BookStatus
 import com.devgabriel.mercadolivro.model.Book
 import com.devgabriel.mercadolivro.model.Customer
 import org.springframework.data.domain.Page
@@ -15,4 +16,5 @@ interface BookService {
     fun deleteByCustomer(customer: Customer)
     fun findAllById(booksId: Set<Long>): List<Book>
     fun updateSoldBooks(booksToBeUpdated: MutableList<Book>)
+    fun existsByIdAndStatus(id: Long, status: BookStatus): Boolean
 }

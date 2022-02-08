@@ -66,4 +66,8 @@ class BookServiceImpl(
         booksToBeUpdated.map { it.status = BookStatus.VENDIDO }
         bookRepository.saveAll(booksToBeUpdated)
     }
+
+    override fun existsByIdAndStatus(id: Long, status: BookStatus): Boolean {
+        return bookRepository.existsByIdAndStatus(id, status)
+    }
 }
