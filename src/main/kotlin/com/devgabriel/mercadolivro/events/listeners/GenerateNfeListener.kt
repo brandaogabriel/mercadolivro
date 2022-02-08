@@ -4,6 +4,7 @@ import com.devgabriel.mercadolivro.events.PurchaseEvent
 import com.devgabriel.mercadolivro.service.PurchaseService
 import org.slf4j.LoggerFactory
 import org.springframework.context.event.EventListener
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -14,6 +15,7 @@ class GenerateNfeListener(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
+    @Async
     @EventListener
     fun generateNfe(purchaseEvent: PurchaseEvent) {
         logger.info("[${javaClass.simpleName}.generateNfe] start - purchase: {}", purchaseEvent.purchase)
