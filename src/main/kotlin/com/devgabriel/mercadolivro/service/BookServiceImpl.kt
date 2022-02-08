@@ -57,4 +57,8 @@ class BookServiceImpl(
         }
         bookRepository.saveAll(books)
     }
+
+    override fun findAllById(booksId: Set<Long>): List<Book> {
+        return bookRepository.findAllById(booksId).toList()
+    }
 }
