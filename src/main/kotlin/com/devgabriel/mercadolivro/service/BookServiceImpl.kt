@@ -61,4 +61,9 @@ class BookServiceImpl(
     override fun findAllById(booksId: Set<Long>): List<Book> {
         return bookRepository.findAllById(booksId).toList()
     }
+
+    override fun updateSoldBooks(booksToBeUpdated: MutableList<Book>) {
+        booksToBeUpdated.map { it.status = BookStatus.VENDIDO }
+        bookRepository.saveAll(booksToBeUpdated)
+    }
 }

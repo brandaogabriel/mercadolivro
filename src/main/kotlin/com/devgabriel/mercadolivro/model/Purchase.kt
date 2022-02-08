@@ -21,9 +21,9 @@ data class Purchase(
         joinColumns = [JoinColumn(name = "purchase_id")],
         inverseJoinColumns = [JoinColumn(name = "book_id")]
     )
-    val books: List<Book>,
+    val books: MutableList<Book>,
 
-    val nfe: String? = null,
+    var nfe: String? = null,
     val price: BigDecimal,
 
     @Column(name = "created_at")

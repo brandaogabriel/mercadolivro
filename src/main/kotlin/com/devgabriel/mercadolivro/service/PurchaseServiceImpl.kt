@@ -16,4 +16,8 @@ class PurchaseServiceImpl(
         purchaseRepository.save(purchase)
         applicationEventPublisher.publishEvent(PurchaseEvent(this, purchase))
     }
+
+    override fun update(purchaseWithNfe: Purchase) {
+        purchaseRepository.save(purchaseWithNfe)
+    }
 }

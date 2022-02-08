@@ -14,4 +14,5 @@ interface BookService {
     fun delete(id: Long)
     fun deleteByCustomer(customer: Customer)
     fun findAllById(booksId: Set<Long>): List<Book>
+    fun updateSoldBooks(booksToBeUpdated: MutableList<Book>)
 }
