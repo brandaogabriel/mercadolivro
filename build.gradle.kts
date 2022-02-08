@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.6.3"
+	id("org.springframework.boot") version "2.5.5"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id ("org.jetbrains.kotlin.plugin.allopen") version "1.6.10"
 	id ("org.jetbrains.kotlin.plugin.noarg") version "1.6.10"
@@ -33,6 +33,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.flywaydb:flyway-core:8.4.3")
+	implementation("org.springdoc:springdoc-openapi-ui:1.6.5")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

@@ -6,6 +6,12 @@ import com.devgabriel.mercadolivro.controller.request.PostCustomerRequest
 import com.devgabriel.mercadolivro.controller.request.PutCustomerRequest
 import com.devgabriel.mercadolivro.controller.response.CustomerResponse
 import com.devgabriel.mercadolivro.service.CustomerService
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -17,7 +23,21 @@ import javax.validation.Valid
 class CustomerController(
     private val customerService: CustomerService
 ) {
-
+    
+    @Operation(summary = "Entregar um json customizado com uma lista de customers")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found the customers",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        array = ArraySchema(schema = Schema(implementation = CustomerResponse::class))
+                    )
+                ]
+            )
+        ]
+    )
     @GetMapping(produces = ["application/json"])
     fun getCustomers(
         @RequestParam name: String?

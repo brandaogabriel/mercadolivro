@@ -8,3 +8,5 @@ spring:
     password: password
   jackson:
     default-property-inclusion: non_null
+springdoc:
+  packages-to-scan: com.devgabriel.mercadolivro.controller
