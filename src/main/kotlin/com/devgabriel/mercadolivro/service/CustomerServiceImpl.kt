@@ -55,4 +55,8 @@ class CustomerServiceImpl(
         customer.status = CustomerStatus.INATIVO
         customerRepository.save(customer)
     }
+
+    override fun emailAvailable(email: String): Boolean {
+        return !customerRepository.existsByEmail(email);
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/books")
@@ -22,7 +23,7 @@ class BookController(
 ) {
 
     @PostMapping(consumes = ["application/json"])
-    fun create(@RequestBody request: PostBookRequest): ResponseEntity<Unit> {
+    fun create(@RequestBody @Valid request: PostBookRequest): ResponseEntity<Unit> {
         val customer = customerService.getCustomerById(request.customerId)
         val book = request.toBookModel(customer)
         bookService.create(book)
