@@ -1,0 +1,1 @@
+ALTER TABLE tb_customer ADD COLUMN password varchar(255);

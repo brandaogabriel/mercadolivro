@@ -24,7 +24,8 @@ fun PostCustomerRequest.toCustomerModel(): Customer {
     return Customer(
         name = name,
         email = email,
-        status = CustomerStatus.ATIVO
+        status = CustomerStatus.ATIVO,
+        password = password
     )
 }
 
@@ -43,7 +44,8 @@ fun PutCustomerRequest.toCustomerModel(previousValue: Customer): Customer {
         id = previousValue.id,
         name = name,
         email = email,
-        status = previousValue.status
+        status = previousValue.status,
+        password = previousValue.password
     )
 }
 

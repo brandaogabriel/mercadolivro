@@ -12,4 +12,5 @@ data class Customer(
     var email: String,
     @Enumerated(EnumType.STRING)
     var status: CustomerStatus,
+    val password: String
 )
