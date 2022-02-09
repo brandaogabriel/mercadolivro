@@ -1,7 +1,7 @@
 package com.devgabriel.mercadolivro.service
 
 import com.devgabriel.mercadolivro.enums.CustomerStatus
-import com.devgabriel.mercadolivro.enums.Profile
+import com.devgabriel.mercadolivro.enums.Role
 import com.devgabriel.mercadolivro.exception.Errors
 import com.devgabriel.mercadolivro.exception.NotFoundException
 import com.devgabriel.mercadolivro.model.Customer
@@ -43,7 +43,7 @@ class CustomerServiceImpl(
     override fun create(customer: Customer) {
         val customerCopy = customer.copy(
             password = bCrypt.encode(customer.password),
-            roles = setOf(Profile.CUSTOMER)
+            roles = setOf(Role.CUSTOMER)
         )
         customerRepository.save(customerCopy)
     }
