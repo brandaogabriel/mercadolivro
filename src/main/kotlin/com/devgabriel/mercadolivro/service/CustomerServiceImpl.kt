@@ -1,17 +1,20 @@
 package com.devgabriel.mercadolivro.service
 
 import com.devgabriel.mercadolivro.enums.CustomerStatus
+import com.devgabriel.mercadolivro.enums.Profile
 import com.devgabriel.mercadolivro.exception.Errors
 import com.devgabriel.mercadolivro.exception.NotFoundException
 import com.devgabriel.mercadolivro.model.Customer
 import com.devgabriel.mercadolivro.repository.CustomerRepository
 import org.slf4j.LoggerFactory
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class CustomerServiceImpl(
     private val customerRepository: CustomerRepository,
-    private val bookService: BookService
+    private val bookService: BookService,
+    private val bCrypt: BCryptPasswordEncoder
 ) : CustomerService {
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -38,7 +41,11 @@ class CustomerServiceImpl(
     }
 
     override fun create(customer: Customer) {
-        customerRepository.save(customer)
+        val customerCopy = customer.copy(
+            password = bCrypt.encode(customer.password),
+            roles = setOf(Profile.CUSTOMER)
+        )
+        customerRepository.save(customerCopy)
     }
 
     override fun updateCustomerById(customer: Customer) {
