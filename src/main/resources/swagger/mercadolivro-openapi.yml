@@ -1,0 +1,480 @@
+---
+components:
+  schemas:
+    BookResponse:
+      properties:
+        customer:
+          $ref: "#/components/schemas/Customer"
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        status:
+          enum:
+            - ATIVO
+            - VENDIDO
+            - CANCELADO
+            - DELETADO
+          type: string
+      type: object
+    Customer:
+      properties:
+        email:
+          type: string
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        password:
+          type: string
+        roles:
+          items:
+            enum:
+              - CUSTOMER
+              - ADMIN
+            type: string
+          type: array
+          uniqueItems: true
+        status:
+          enum:
+            - ATIVO
+            - INATIVO
+          type: string
+      type: object
+    CustomerResponse:
+      properties:
+        email:
+          type: string
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        status:
+          enum:
+            - ATIVO
+            - INATIVO
+          type: string
+      type: object
+    PageBookResponse:
+      properties:
+        content:
+          items:
+            $ref: "#/components/schemas/BookResponse"
+          type: array
+        empty:
+          type: boolean
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          format: int32
+          type: integer
+        numberOfElements:
+          format: int32
+          type: integer
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        size:
+          format: int32
+          type: integer
+        sort:
+          $ref: "#/components/schemas/Sort"
+        totalElements:
+          format: int64
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+      type: object
+    Pageable:
+      properties:
+        page:
+          format: int32
+          minimum: 0
+          type: integer
+        size:
+          format: int32
+          minimum: 1
+          type: integer
+        sort:
+          items:
+            type: string
+          type: array
+      type: object
+    PageableObject:
+      properties:
+        offset:
+          format: int64
+          type: integer
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        paged:
+          type: boolean
+        sort:
+          $ref: "#/components/schemas/Sort"
+        unpaged:
+          type: boolean
+      type: object
+    PostBookRequest:
+      properties:
+        customerId:
+          format: int64
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+      required:
+        - customerId
+        - name
+        - price
+      type: object
+    PostCustomerRequest:
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+      required:
+        - name
+        - password
+      type: object
+    PostPurchaseRequest:
+      properties:
+        booksId:
+          items:
+            format: int64
+            type: integer
+          type: array
+          uniqueItems: true
+        customerId:
+          format: int64
+          type: integer
+      required:
+        - booksId
+        - customerId
+      type: object
+    PutBookRequest:
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+      type: object
+    PutCustomerRequest:
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+      required:
+        - name
+      type: object
+    Sort:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+      type: object
+    Unit:
+      type: object
+info:
+  description: "Api para testes em ambiente de desenvolvimento"
+  title: "Mercado Livro API"
+  version: 0.0.1-SNAPSHOT
+openapi: "3.0.1"
+paths:
+  /admin/report:
+    get:
+      operationId: reportToAdmins
+      responses:
+        ? "200"
+          :
+          content:
+            ? "*/*"
+              :
+              schema:
+                type: string
+          description: OK
+      tags:
+        - admin-controller
+  /api/v1/books:
+    get:
+      operationId: findAll
+      parameters:
+        -
+          in: query
+          name: pageable
+          required: true
+          schema:
+            $ref: "#/components/schemas/Pageable"
+      responses:
+        ? "200"
+          :
+          content:
+            ? "*/*"
+              :
+              schema:
+                $ref: "#/components/schemas/PageBookResponse"
+          description: OK
+      tags:
+        - book-controller
+    post:
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostBookRequest"
+        required: true
+      responses:
+        ? "200"
+          :
+          content:
+            ? "*/*"
+              :
+              schema:
+                $ref: "#/components/schemas/Unit"
+          description: OK
+      tags:
+        - book-controller
+  /api/v1/books/actives:
+    get:
+      operationId: findAllActives
+      parameters:
+        -
+          in: query
+          name: pageable
+          required: true
+          schema:
+            $ref: "#/components/schemas/Pageable"
+      responses:
+        ? "200"
+          :
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageBookResponse"
+          description: OK
+      tags:
+        - book-controller
+  ? "/api/v1/books/{id}"
+    :
+    delete:
+      operationId: delete
+      parameters:
+        -
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        ? "200"
+          :
+          content:
+            ? "*/*"
+              :
+              schema:
+                $ref: "#/components/schemas/Unit"
+          description: OK
+      tags:
+        - book-controller
+    get:
+      operationId: findById
+      parameters:
+        -
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        ? "200"
+          :
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookResponse"
+          description: OK
+      tags:
+        - book-controller
+    put:
+      operationId: update
+      parameters:
+        -
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int64
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutBookRequest"
+        required: true
+      responses:
+        ? "200"
+          :
+          content:
+            ? "*/*"
+              :
+              schema:
+                $ref: "#/components/schemas/Unit"
+          description: OK
+      tags:
+        - book-controller
+  /api/v1/customers:
+    get:
+      operationId: getCustomers
+      parameters:
+        -
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+      responses:
+        ? "200"
+          :
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CustomerResponse"
+                type: array
+          description: "Found the customers"
+      summary: "Entregar um json customizado com uma lista de customers"
+      tags:
+        - customer-controller
+    post:
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostCustomerRequest"
+        required: true
+      responses:
+        ? "200"
+          :
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Unit"
+          description: OK
+      tags:
+        - customer-controller
+  ? "/api/v1/customers/{id}"
+    :
+    delete:
+      operationId: deleteCustomerById
+      parameters:
+        -
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        ? "200"
+          :
+          content:
+            ? "*/*"
+              :
+              schema:
+                $ref: "#/components/schemas/Unit"
+          description: OK
+      tags:
+        - customer-controller
+    get:
+      operationId: getCustomerById
+      parameters:
+        -
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        ? "200"
+          :
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
+          description: OK
+      tags:
+        - customer-controller
+    put:
+      operationId: updateCustomerById
+      parameters:
+        -
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int64
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutCustomerRequest"
+        required: true
+      responses:
+        ? "200"
+          :
+          content:
+            ? "*/*"
+              :
+              schema:
+                $ref: "#/components/schemas/Unit"
+          description: OK
+      tags:
+        - customer-controller
+  /api/v1/purchase:
+    post:
+      operationId: purchase
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostPurchaseRequest"
+        required: true
+      responses:
+        ? "200"
+          :
+          content:
+            ? "*/*"
+              :
+              schema:
+                $ref: "#/components/schemas/Unit"
+          description: OK
+      tags:
+        - purchase-controller
+servers:
+  -
+    description: "Generated server url"
+    url: "http://localhost:8080
