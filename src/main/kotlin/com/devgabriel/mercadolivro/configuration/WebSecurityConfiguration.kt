@@ -2,6 +2,7 @@ package com.devgabriel.mercadolivro.configuration
 
 import com.devgabriel.mercadolivro.repository.CustomerRepository
 import com.devgabriel.mercadolivro.security.AuthenticationFilter
+import com.devgabriel.mercadolivro.security.AuthorizationFilter
 import com.devgabriel.mercadolivro.security.JwtUtil
 import com.devgabriel.mercadolivro.service.UserDetailsCustomerService
 import org.springframework.context.annotation.Bean
@@ -38,6 +39,7 @@ class WebSecurityConfiguration(
             .anyRequest().authenticated()
 
         http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
+        http.addFilter(AuthorizationFilter(authenticationManager(), userDetails, jwtUtil))
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
