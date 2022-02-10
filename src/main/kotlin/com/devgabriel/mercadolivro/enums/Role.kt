@@ -1,6 +1,6 @@
 package com.devgabriel.mercadolivro.enums
 
 enum class Role(val description: String) {
-    CUSTOMER("CUSTOMER_ROLE"),
-    ADMIN("ADMIN_ROLE")
+    CUSTOMER("ROLE_CUSTOMER"),
+    ADMIN("ROLE_ADMIN")
 }

@@ -6,6 +6,7 @@ import com.devgabriel.mercadolivro.controller.request.PostCustomerRequest
 import com.devgabriel.mercadolivro.controller.request.PutCustomerRequest
 import com.devgabriel.mercadolivro.controller.response.CustomerResponse
 import com.devgabriel.mercadolivro.service.CustomerService
+import com.devgabriel.mercadolivro.validation.UserCanOnlyAccessTheirOwnResource
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -47,6 +48,7 @@ class CustomerController(
     }
 
     @GetMapping("/{id}", produces = ["application/json"])
+    @UserCanOnlyAccessTheirOwnResource
     fun getCustomerById(@PathVariable id: Long): ResponseEntity<CustomerResponse> {
         val customer = customerService.getCustomerById(id)
         return ResponseEntity.ok(customer.toCustomerResponse())
@@ -64,6 +66,7 @@ class CustomerController(
     }
 
     @PutMapping("/{id}")
+    @UserCanOnlyAccessTheirOwnResource
     fun updateCustomerById(
         @PathVariable id: Long,
         @RequestBody @Valid request: PutCustomerRequest
