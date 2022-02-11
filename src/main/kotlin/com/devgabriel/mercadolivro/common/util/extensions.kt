@@ -6,10 +6,12 @@ import com.devgabriel.mercadolivro.controller.request.PutBookRequest
 import com.devgabriel.mercadolivro.controller.request.PutCustomerRequest
 import com.devgabriel.mercadolivro.controller.response.BookResponse
 import com.devgabriel.mercadolivro.controller.response.CustomerResponse
+import com.devgabriel.mercadolivro.controller.response.PageResponse
 import com.devgabriel.mercadolivro.enums.BookStatus
 import com.devgabriel.mercadolivro.enums.CustomerStatus
 import com.devgabriel.mercadolivro.model.Book
 import com.devgabriel.mercadolivro.model.Customer
+import org.springframework.data.domain.Page
 
 fun PostBookRequest.toBookModel(customer: Customer): Book {
     return Book(
@@ -63,6 +65,9 @@ fun Book.toBookResponse(): BookResponse =
         id = this.id,
         name = this.name,
         price = this.price,
-        customer = this.customer,
+        customer = this.customer?.toCustomerResponse(),
         status = this.status
     )
+
+fun <T> Page<T>.toPageResponse(): PageResponse<T> =
+    PageResponse(this.content, this.number, this.totalElements, this.totalPages)
