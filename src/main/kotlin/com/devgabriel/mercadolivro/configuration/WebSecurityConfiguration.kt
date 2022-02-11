@@ -2,9 +2,7 @@ package com.devgabriel.mercadolivro.configuration
 
 import com.devgabriel.mercadolivro.enums.Role
 import com.devgabriel.mercadolivro.repository.CustomerRepository
-import com.devgabriel.mercadolivro.security.AuthenticationFilter
-import com.devgabriel.mercadolivro.security.AuthorizationFilter
-import com.devgabriel.mercadolivro.security.JwtUtil
+import com.devgabriel.mercadolivro.security.*
 import com.devgabriel.mercadolivro.service.UserDetailsCustomerService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -27,12 +25,14 @@ import org.springframework.web.filter.CorsFilter
 class WebSecurityConfiguration(
     private val customerRepository: CustomerRepository,
     private val userDetails: UserDetailsCustomerService,
+    private val customEntryPoint: CustomAuthenticationEntryPoint,
+    private val customAccessDeniedHandler: CustomAccessDeniedHandler,
     private val jwtUtil: JwtUtil
 ) : WebSecurityConfigurerAdapter() {
 
     private val PUBLIC_MATCHERS = arrayOf<String>()
     private val PUBLIC_POST_MATCHERS = arrayOf("/api/v1/customers")
-    private val ADMIN_MATCHERS = arrayOf("/admin/**")
+    private val ADMIN_MATCHERS = arrayOf("/admin/**", "/api/v1/customers")
 
     @Bean
     fun bCryptPasswordEncoder() = BCryptPasswordEncoder()
@@ -79,7 +79,8 @@ class WebSecurityConfiguration(
         http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
         http.addFilter(AuthorizationFilter(authenticationManager(), userDetails, jwtUtil))
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.exceptionHandling().authenticationEntryPoint(customEntryPoint)
+        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
     }
-
 
 }
