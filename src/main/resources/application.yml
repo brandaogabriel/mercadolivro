@@ -1,15 +1,11 @@
 spring:
+  profiles:
+    active: dev
   jpa:
     hibernate:
       ddl-auto: update
-  datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/db_mercadolivro}
-    username: postgres
-    password: password
   jackson:
     default-property-inclusion: non_null
-springdoc:
-  packages-to-scan: com.devgabriel.mercadolivro.controller
 
 jwt:
   duration: 999999
