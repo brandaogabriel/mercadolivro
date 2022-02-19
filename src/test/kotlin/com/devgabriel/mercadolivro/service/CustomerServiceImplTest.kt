@@ -6,6 +6,7 @@ import com.devgabriel.mercadolivro.exception.Errors
 import com.devgabriel.mercadolivro.exception.NotFoundException
 import com.devgabriel.mercadolivro.model.Customer
 import com.devgabriel.mercadolivro.repository.CustomerRepository
+import com.devgabriel.mercadolivro.service.helper.buildCustomer
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -217,18 +218,4 @@ class CustomerServiceImplTest {
             customerRepository.existsByEmail(email)
         }
     }
-
-    private fun buildCustomer(
-        id: Long? = null,
-        name: String = "customer name",
-        email: String = "${UUID.randomUUID()}@email.com",
-        password: String = "password"
-    ) = Customer(
-        id = id,
-        name = name,
-        email = email,
-        password = password,
-        status = CustomerStatus.ATIVO,
-        roles = setOf(Role.CUSTOMER)
-    )
 }
