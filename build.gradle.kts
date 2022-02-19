@@ -39,6 +39,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.5")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.mockk:mockk:1.12.2")
 }
 
 tasks.withType<KotlinCompile> {

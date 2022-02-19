@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: test
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5433/db_mercadolivro_test}
+    username: postgres
+    password: test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  jackson:
+    default-property-inclusion: non_null
+
+jwt:
+  duration: 999999
+  secret-key: dfkd0fkdsofkdsofkooK2O3K23O1J32Ninsidjadsdkas-12313m2omdsomdfasdom-1232103jk2mfoasd-0asdk012k303k12ldmasld

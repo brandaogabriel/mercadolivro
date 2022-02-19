@@ -9,3 +9,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db_mercadolivro
+  database-test:
+    image: "postgres:latest"
+    container_name: db_mercadolivro_test
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: db_mercadolivro_test
