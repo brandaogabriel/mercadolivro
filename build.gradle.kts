@@ -7,6 +7,7 @@ plugins {
 	id ("org.jetbrains.kotlin.plugin.noarg") version "1.6.10"
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
+	jacoco
 }
 
 apply(plugin = "kotlin-jpa")
