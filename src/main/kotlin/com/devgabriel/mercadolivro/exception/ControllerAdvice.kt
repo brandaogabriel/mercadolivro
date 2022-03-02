@@ -42,7 +42,7 @@ class ControllerAdvice {
         ex: MethodArgumentNotValidException,
         request: WebRequest
     ): ResponseEntity<ErrorResponse> {
-        val httStatus = HttpStatus.BAD_REQUEST
+        val httStatus = HttpStatus.UNPROCESSABLE_ENTITY
         val error = ErrorResponse(
             httpCode = httStatus.value(),
             message = Errors.ML_001.message,
